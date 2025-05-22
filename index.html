@@ -178,18 +178,22 @@
         gl_Position = vec4(position, 1.);
     }
     </script>
-    <!-- IMPORT JAVASCRIPT TERAKHIR -->
-    <script type="module" src="main.js"></script>
+
+    <!-- AUDIO AUTOPLAY HIDDEN -->
     <audio id="my-audio" src="robbers.mp3" autoplay hidden></audio>
 
-<script type="module" src="main.js"></script>
-<script>
-document.addEventListener('click', function () {
-    const audio = document.getElementById('my-audio');
-    if (audio.paused) {
-        audio.play();
-    }
-});
-</script>
+    <!-- SCRIPT UTAMA -->
+    <script type="module" src="main.js"></script>
+
+    <!-- SCRIPT AUTOPLAY AUDIO SETELAH KLIK -->
+    <script>
+    // Memastikan audio akan diputar saat user klik di halaman (untuk mengatasi autoplay policy browser)
+    document.addEventListener('click', function () {
+        const audio = document.getElementById('my-audio');
+        if (audio.paused) {
+            audio.play();
+        }
+    });
+    </script>
 </body>
 </html>
