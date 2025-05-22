@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="style.css">
-
-		<!-- Document Title -->
-		<title> buat kakaa cantikkk </title>
-	</head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>buat kakaa cantikkk</title>
+</head>
 <body class="container">
 
-	<div class="container">
-    <canvas id="canvas"></canvas>
-    <div class="name">
- <audio controls autoplay hidden>
-    <source src="robbers.mp3"  type="audio/mpeg">
- </audio>
-        <span>
-            
-        </span>
+    <div class="container">
+        <canvas id="canvas"></canvas>
+        <div class="name">
+            <audio controls autoplay style="display:none">
+                <source src="robbers.mp3" type="audio/mpeg">
+            </audio>
+            <span></span>
+        </div>
+        <div class="render-toggle">
+            freeze
+        </div>
     </div>
-    <div class="render-toggle">
-        freeze
-    </div>
-</div>
-<script type="x-shader/x-fragment" id="fragmentShader">
+    
+    <!-- SHADER SCRIPTS -->
+    <script type="x-shader/x-fragment" id="fragmentShader">
     uniform float u_ratio;
     uniform vec2 u_point;
     uniform float u_time;
@@ -70,7 +67,6 @@
         return 1. - smoothstep(radius_line * radius_max, radius_max, dot(dist, dist) * 4.0);
     }
 
-	
     float get_stem_shape(vec2 _cursor, vec2 _uv, float _t, float _size, float _flowery, vec2 _rand) {
 
         float stroke_width = .01;
@@ -177,15 +173,15 @@
 
         gl_FragColor = vec4(color, 1.0);
     }
-</script>
-</body>
-<script type="x-shader/x-vertex" id="vertexShader">
+    </script>
+    <script type="x-shader/x-vertex" id="vertexShader">
     varying vec2 vUv;
     void main() {
         vUv = uv;
         gl_Position = vec4(position, 1.);
     }
-</script>
+    </script>
+    <!-- IMPORT JAVASCRIPT TERAKHIR -->
+    <script type="module" src="main.js"></script>
+</body>
 </html>
-<!-- Import Javascript -->
-<script src="script.js"></script>
