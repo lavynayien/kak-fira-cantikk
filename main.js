@@ -9,6 +9,7 @@ const pointer = {
     clicked: true
 };
 
+// Auto-preview pointer untuk demo
 window.setTimeout(() => {
     pointer.x = .75;
     pointer.y = .5;
@@ -34,8 +35,10 @@ window.addEventListener("resize", updateSize);
 
 function handleClickOrTouch(e) {
     e.preventDefault();
+
     if (e.target !== toggleEl) {
         let clientX, clientY;
+
         if (e.type === "click") {
             clientX = e.clientX;
             clientY = e.clientY;
@@ -44,6 +47,7 @@ function handleClickOrTouch(e) {
             clientX = touch.clientX;
             clientY = touch.clientY;
         }
+
         pointer.x = clientX / window.innerWidth;
         pointer.y = clientY / window.innerHeight;
         pointer.clicked = true;
@@ -65,7 +69,7 @@ function initScene() {
         alpha: true
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(backgroundColor, 0); // transparan
+    renderer.setClearColor(backgroundColor, 0);
 
     shaderScene = new THREE.Scene();
     mainScene = new THREE.Scene();
@@ -122,7 +126,7 @@ function render() {
 
     if (isRendering) {
         shaderMaterial.uniforms.u_texture.value = renderTargets[0].texture;
-        shaderMaterial.uniforms.u_time.value = clock.getElapsedTime() + .9;
+        shaderMaterial.uniforms.u_time.value = clock.getElapsedTime() + .9; // offset untuk warna awal
 
         if (pointer.clicked) {
             shaderMaterial.uniforms.u_point.value = new THREE.Vector2(pointer.x, 1 - pointer.y);
@@ -144,7 +148,7 @@ function render() {
         renderer.setRenderTarget(null);
         renderer.render(mainScene, camera);
 
-        // Swap renderTargets
+        // swap renderTargets
         [renderTargets[0], renderTargets[1]] = [renderTargets[1], renderTargets[0]];
     }
 }
