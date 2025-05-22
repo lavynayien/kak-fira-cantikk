@@ -9,7 +9,6 @@ const pointer = {
     clicked: true
 };
 
-// for codepen preview
 window.setTimeout(() => {
     pointer.x = .75;
     pointer.y = .5;
@@ -21,53 +20,44 @@ window.setTimeout(() => {
     pointer.clicked = true;
 }, 700);
 
-// only for codepen preview
 let isStart = true;
-
-
 let isRendering = true;
 
-let renderer, shaderScene, mainScene, sceneTest, renderTargets, camera, clock;
+let renderer, shaderScene, mainScene, renderTargets, camera, clock;
 let basicMaterial, shaderMaterial;
 
 const backgroundColor = new THREE.Color(0xffffff);
 
 initScene();
-
 updateSize();
 window.addEventListener("resize", updateSize);
 
-    function handleClickOrTouch(e) {
-        e.preventDefault(); // Prevent default touch behavior
-
-        if (e.target !== toggleEl) {
-            let clientX, clientY;
-
-            if (e.type === "click") {
-                clientX = e.clientX;
-                clientY = e.clientY;
-            } else if (e.type === "touchstart") {
-                const touch = e.touches[0];
-                clientX = touch.clientX;
-                clientY = touch.clientY;
-            }
-
-            pointer.x = clientX / window.innerWidth;
-            pointer.y = clientY / window.innerHeight;
-            pointer.clicked = true;
-            isRendering = true;
-        } else {
-            isRendering = !isRendering;
+function handleClickOrTouch(e) {
+    e.preventDefault();
+    if (e.target !== toggleEl) {
+        let clientX, clientY;
+        if (e.type === "click") {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        } else if (e.type === "touchstart") {
+            const touch = e.touches[0];
+            clientX = touch.clientX;
+            clientY = touch.clientY;
         }
-
-        toggleEl.innerHTML = isRendering ? "freeze" : "unfreeze";
+        pointer.x = clientX / window.innerWidth;
+        pointer.y = clientY / window.innerHeight;
+        pointer.clicked = true;
+        isRendering = true;
+    } else {
+        isRendering = !isRendering;
     }
+    toggleEl.innerHTML = isRendering ? "freeze" : "unfreeze";
+}
 
-    window.addEventListener("click", handleClickOrTouch);
-    window.addEventListener("touchstart", handleClickOrTouch);
+window.addEventListener("click", handleClickOrTouch);
+window.addEventListener("touchstart", handleClickOrTouch);
 
 render();
-
 
 function initScene() {
     renderer = new THREE.WebGLRenderer({
@@ -75,10 +65,10 @@ function initScene() {
         alpha: true
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(backgroundColor, 0); // transparan
 
     shaderScene = new THREE.Scene();
     mainScene = new THREE.Scene();
-    sceneTest = new THREE.Scene();
 
     camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     clock = new THREE.Clock();
@@ -126,15 +116,13 @@ function initScene() {
     mainScene.add(planeBasic);
 }
 
-
 function render() {
     requestAnimationFrame(render);
     const delta = clock.getDelta();
 
     if (isRendering) {
-
         shaderMaterial.uniforms.u_texture.value = renderTargets[0].texture;
-        shaderMaterial.uniforms.u_time.value = clock.getElapsedTime() + .9; // offset for 1st flower color
+        shaderMaterial.uniforms.u_time.value = clock.getElapsedTime() + .9;
 
         if (pointer.clicked) {
             shaderMaterial.uniforms.u_point.value = new THREE.Vector2(pointer.x, 1 - pointer.y);
@@ -156,13 +144,15 @@ function render() {
         renderer.setRenderTarget(null);
         renderer.render(mainScene, camera);
 
-        let tmp = renderTargets[0];
-        renderTargets[0] = renderTargets[1];
-        renderTargets[1] = tmp;
+        // Swap renderTargets
+        [renderTargets[0], renderTargets[1]] = [renderTargets[1], renderTargets[0]];
     }
 }
 
 function updateSize() {
     shaderMaterial.uniforms.u_ratio.value = window.innerWidth / window.innerHeight;
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderTargets[0].setSize(window.innerWidth, window.innerHeight);
+    renderTargets[1].setSize(window.innerWidth, window.innerHeight);
 }
