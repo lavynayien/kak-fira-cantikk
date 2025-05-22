@@ -12,9 +12,6 @@
     <div class="container">
         <canvas id="canvas"></canvas>
         <div class="name">
-            <audio controls autoplay style="display:none">
-                <source src="robbers.mp3" type="audio/mpeg">
-            </audio>
             <span></span>
         </div>
         <div class="render-toggle">
@@ -183,5 +180,16 @@
     </script>
     <!-- IMPORT JAVASCRIPT TERAKHIR -->
     <script type="module" src="main.js"></script>
+    <audio id="my-audio" src="robbers.mp3" autoplay hidden></audio>
+
+<script type="module" src="main.js"></script>
+<script>
+document.addEventListener('click', function () {
+    const audio = document.getElementById('my-audio');
+    if (audio.paused) {
+        audio.play();
+    }
+});
+</script>
 </body>
 </html>
