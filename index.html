@@ -1,8 +1,22 @@
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="style.css">
+
+		<!-- Document Title -->
+		<title> buat kakaa cantikkk </title>
+	</head>
+<body class="container">
+
+	<div class="container">
     <canvas id="canvas"></canvas>
     <div class="name">
-       <audio controls autoplay hidden>
-    <source src="C:\Users\ASUS\Downloads\robbers.mp3"  type="audio/mpeg">
+ <audio controls autoplay hidden>
+    <source src="robbers.mp3"  type="audio/mpeg">
  </audio>
         <span>
             
@@ -164,7 +178,7 @@
         gl_FragColor = vec4(color, 1.0);
     }
 </script>
-
+</body>
 <script type="x-shader/x-vertex" id="vertexShader">
     varying vec2 vUv;
     void main() {
@@ -172,3 +186,6 @@
         gl_Position = vec4(position, 1.);
     }
 </script>
+</html>
+<!-- Impot Javascript -->
+<script src="script.js"></script>
