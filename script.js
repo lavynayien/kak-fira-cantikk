@@ -96,7 +96,7 @@ function initScene() {
             u_point: {type: "v2", value: new THREE.Vector2(pointer.x, pointer.y)},
             u_time: {type: "f", value: 0.},
             u_stop_time: {type: "f", value: 0.},
-            u_stop_randomizer: {type: "v3", value: new THREE.Vector2(0, 0, 0)},
+            u_stop_randomizer: {type: "v3", value: new THREE.Vector3(0, 0, 0)},
             u_texture: {type: "t", value: null},
             u_background_color: {type: "v3", value: backgroundColor}
         },
